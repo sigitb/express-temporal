@@ -1,0 +1,16 @@
+FROM node:slim
+
+WORKDIR /express-temporal
+
+COPY ../. .
+# COPY . . 
+
+RUN rm -fr /express-temporal/node_modules/ /express-temporal/package-lock.json /express-temporal/dist/
+
+RUN apt-get update ; apt-get install libssl-dev -y
+
+RUN npm i
+
+RUN npm run build
+
+CMD ["npm", "run", "prod"]
