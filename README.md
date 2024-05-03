@@ -1,3 +1,5 @@
+# Synchronization of Application with Accurate
+
 <!-- command create project -->
 - mkdir <name project>
 - npm init
@@ -22,7 +24,3 @@
 - npm run dev
 
 <!-- auth frappe -->
-# key
-# 736960728528a1c
-# secret
-# 4d043b927a0449d
