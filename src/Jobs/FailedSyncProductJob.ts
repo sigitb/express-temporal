@@ -25,7 +25,6 @@ export const FailedFrappeJobProduct = async () => {
     }
 }
 
-
 export const FailedAccurateJobProduct = async () => {
     const serviceData: AccurateService = new AccurateService
     const data = await serviceData.getDataFailedProduct()

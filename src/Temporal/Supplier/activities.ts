@@ -1,5 +1,8 @@
 import axios from 'axios';
 import { generateHeader } from '../../Utils/HeaderAccurateUtil'
+import FrappeService from '../../Services/FrappeService';
+import AccurateService from '../../Services/AccurateService';
+import Stringutil from '../../Utils/StringUtil';
 require("dotenv").config();
 
 export async function callSupplier(): Promise<Object> {
@@ -60,5 +63,76 @@ export async function updateIdSupplier(accurate: number | 0, frappe:string) : Pr
       status: 'error',
       data: error
     }
+  }
+}
+
+export async function callFailedSyncFrappe(): Promise<Object> {
+  try {
+    const service: FrappeService = new FrappeService
+    const result = service.getDataFailedSupplier()    
+    return {
+      status: "success",
+      data: await result
+    }
+  } catch (error) {
+    return {
+      status: 'error',
+      data: error
+    }    
+  }
+}
+
+export async function deleteDataFailedFrappe(id: number): Promise<Object> {
+  try {
+    const service: FrappeService = new FrappeService
+    const result = service.deleteDataFailed(id)
+    return {
+      status: "success",
+      data: result
+    }
+  } catch (error) {
+    return {
+      status: 'error',
+      data: error
+    }    
+  }
+}
+
+export async function callFailedSyncAccurate(): Promise<Object> {
+  try {
+    const service: AccurateService = new AccurateService
+    const result = await service.getDataFailedSupplier()    
+    return {
+      status: "success",
+      data: result.map(item => {
+        const request = Stringutil.jsonDecode(item.request || '')
+        return {
+            ...item,
+            id_frappe: request ? request.id : '',
+            join_date: request ? request.join_date: ''
+        };
+      })
+    }
+  } catch (error) {
+    return {
+      status: 'error',
+      data: error
+    }    
+  }
+}
+
+export async function deleteDataFailedAccurate(id: number): Promise<Object> {
+  try {
+    const service: AccurateService = new AccurateService
+    const result = service.deleteDataFailed(id)
+    return {
+      status: "success",
+      data: result
+    }
+  } catch (error) {
+    return {
+      status: 'error',
+      data: error
+    }    
   }
 }

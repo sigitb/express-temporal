@@ -9,8 +9,8 @@ import cron from 'node-cron';
 
 // routes
 import AccurateRoutes from "./Routers/AccurateRoute";
-import { FailedAccurateJobProduct, FailedFrappeJobProduct } from "./Jobs/FailedFrappeJob";
-
+import { FailedAccurateJobProduct, FailedFrappeJobProduct } from "./Jobs/FailedSyncProductJob";
+import { FailedAccurateJobSupplier, FailedFrappeJobSupplier } from "./Jobs/FailedSyncSupplierJob";
 
 class App {
     public app: Application;
@@ -41,6 +41,8 @@ class App {
     protected jobs(): void{
         cron.schedule('* * * * *', FailedFrappeJobProduct);
         cron.schedule('* * * * *', FailedAccurateJobProduct);
+        cron.schedule('* * * * *', FailedAccurateJobSupplier);
+        cron.schedule('* * * * *', FailedFrappeJobSupplier);
     }
 }
 
