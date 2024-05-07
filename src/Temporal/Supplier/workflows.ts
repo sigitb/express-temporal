@@ -47,7 +47,7 @@ export async function syncAccurateSupplier(): Promise<Object> {
       }
       if (resultSuppliers.status != 'success') {
         data.sync_accurate_error.push(supplier);
-        await updateIdSupplier(0, supplier.id) 
+        await updateIdSupplier("", supplier.id) 
         continue;
       } else {
         data.sync_accurate_success.push(supplier);

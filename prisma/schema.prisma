@@ -43,4 +43,6 @@ model SyncFrappeFailed {
 enum TypeSync{
   PRODUCT
   SUPPLIER
+  PURCHASE_ORDER
+  PAYMENT_ENTRY
 }

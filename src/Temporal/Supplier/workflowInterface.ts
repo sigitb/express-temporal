@@ -9,13 +9,13 @@ export interface Supplier {
     id: string;
     name: string;
     join_date: string;
-    id_accurate?: number | null;
+    id_accurate?: string | "";
     id_frappe?: string | "";
 }
 
 export interface FailedData{
     id: number;
-    id_accurate: number;
+    id_accurate: string;
     id_frappe: string
 }
 

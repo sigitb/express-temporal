@@ -44,7 +44,7 @@ export async function syncSupplier(name:string, join_date:string): Promise<Objec
       }
 }
 
-export async function updateIdSupplier(accurate: number | 0, frappe:string) : Promise<Object> {
+export async function updateIdSupplier(accurate: string | "", frappe:string) : Promise<Object> {
   try {
     const response = await axios.put(process.env.FRAPPE_HOST + '/api/resource/Supplier/' + frappe, {
       'id_accurate': accurate,
