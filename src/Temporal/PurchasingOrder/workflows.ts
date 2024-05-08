@@ -40,6 +40,8 @@ export async function syncAccuratePurchaseOrder(): Promise<Object> {
         id_purchase_order: purchaseOrder.data[index].id_purchasing_order,
         id_supplier: purchaseOrder.data[index].id_supplier,
         id_supplier_accurate: purchaseOrder.data[index].id_accurate_supplier,
+        address: purchaseOrder.data[index].address,
+        grand_total: purchaseOrder.data[index].grand_total,
         transaction_date: format(new Date(purchaseOrder.data[index].transaction_date), 'dd/MM/yyyy'),
         items: products
       }      

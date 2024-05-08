@@ -9,7 +9,9 @@ export interface PurchaseOrder {
     id_purchase_order: String;
     id_supplier: String;
     id_supplier_accurate?: String | "";
+    grand_total?: Number | 0;
     transaction_date: String;
+    address: string;
     id_accurate?: String | "";
     items?: Item[]
 }

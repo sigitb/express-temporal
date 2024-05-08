@@ -28,7 +28,8 @@ export async function sync(data: PurchaseOrder) : Promise<Object> {
         const response = await axios.post(process.env.ACCURATE_HOST + '/accurate/api/purchase-order/save.do', {
             'transDate': data.transaction_date,
             'vendorNo': data.id_supplier_accurate,
-            'toAddress': "testing address",
+            'toAddress': data.address,
+            'rate': data.grand_total,
             'detailItem': data.items?.map(row => {
                 return {
                     'itemId': row.id_accurate,
