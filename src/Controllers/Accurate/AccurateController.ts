@@ -183,7 +183,7 @@ class AccurateController {
         const response = await axios.get(process.env.ACCURATE_HOST + '/accurate/api/item/detail.do', {
             headers,
             params: {
-                id:"100"
+                id:"200"
             }
         })
         return res.send({
