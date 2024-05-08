@@ -11,6 +11,7 @@ import cron from 'node-cron';
 import AccurateRoutes from "./Routers/AccurateRoute";
 import { FailedAccurateJobProduct, FailedFrappeJobProduct } from "./Jobs/FailedSyncProductJob";
 import { FailedAccurateJobSupplier, FailedFrappeJobSupplier } from "./Jobs/FailedSyncSupplierJob";
+import { FailedFrappeJobPurchaseOrder } from "./Jobs/FailedSyncPurchaseOrderJob";
 
 class App {
     public app: Application;
@@ -43,6 +44,7 @@ class App {
         cron.schedule('* * * * *', FailedAccurateJobProduct);
         cron.schedule('* * * * *', FailedAccurateJobSupplier);
         cron.schedule('* * * * *', FailedFrappeJobSupplier);
+        cron.schedule('* * * * *', FailedFrappeJobPurchaseOrder);
     }
 }
 

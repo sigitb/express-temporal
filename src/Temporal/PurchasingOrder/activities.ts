@@ -1,6 +1,7 @@
 import axios from "axios"
 import { PurchaseOrder } from "./workflowInterface"
 import { generateHeader } from "../../Utils/HeaderAccurateUtil"
+import FrappeService from "../../Services/FrappeService"
 
 export async function callPurchaseOrder(): Promise<Object> {
     try {
@@ -72,4 +73,36 @@ export async function updateId(id: string, id_accurate: string | ""): Promise<Ob
         data: error
       }
     }
+}
+  
+export async function callFailedFrappe(): Promise<Object> {
+  try {
+    const service: FrappeService = new FrappeService
+    const result = await service.getDataFailedPruchaseOrder()    
+    return {
+      status: "success",
+      data: result
+    }
+  } catch (error) {
+    return {
+      status: 'error',
+      data: error
+    }
   }
+}
+export async function deleteFailedFrappe(id:number): Promise<Object> {
+  try {
+    const service: FrappeService = new FrappeService
+    const result = await service.deleteDataFailed(id)    
+    return {
+      status: "success",
+      data: result
+    }
+    return {}
+  } catch (error) {
+    return {
+      status: 'error',
+      data: error
+    }
+  }
+}

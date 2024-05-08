@@ -19,12 +19,16 @@ export interface PurchaseOrder {
 export interface Item{
     qty: Number,
     rate: Number,
-    id_item_accurate: String,
+    id_accurate: String,
     item_name: string
 }
-export interface Item{
-    qty: Number,
-    rate: Number,
-    id_accurate: Number,
-    item_name: string
+export interface DataCron{
+    sync_success: any[];
+    sync_failed: any[];
+}
+
+export interface FailedData{
+    id: number;
+    id_frappe: string;
+    id_accurate: string;
 }

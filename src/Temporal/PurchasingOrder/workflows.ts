@@ -2,12 +2,14 @@ import { proxyActivities } from '@temporalio/workflow';
 // Only import the activity types
 import type * as activities from './activities';
 import { format } from 'date-fns';
-import { Item, PurchaseOrder, Response } from './workflowInterface';
+import { DataCron, FailedData, Item, PurchaseOrder, Response } from './workflowInterface';
 
 const {
   callPurchaseOrder,
   updateId,
-  sync
+  sync,
+  callFailedFrappe,
+  deleteFailedFrappe
 } = proxyActivities<typeof activities>({
   startToCloseTimeout: '30s',
   scheduleToCloseTimeout: '30s',
@@ -76,4 +78,54 @@ export async function syncAccuratePurchaseOrder(): Promise<Object> {
       data: error
     }
   }
+}
+
+export async function syncFailedFrappe(): Promise<Object> {
+
+  try {
+    const failedSync = await callFailedFrappe();
+    let resultFailedSync = Object(failedSync)
+    if (resultFailedSync.status != 'success') {
+      return {
+        'status': 'error',
+        'data':{}
+      }
+    }
+
+    const result: DataCron = {
+      sync_failed: [],
+      sync_success:[]
+    }
+
+    for (let index = 0; index < resultFailedSync.data.length; index++) {
+      const purchase_order: FailedData = {
+        id: resultFailedSync.data[index].id,
+        id_accurate: resultFailedSync.data[index].id_accurate,
+        id_frappe: resultFailedSync.data[index].id_frappe,
+      }
+      const updateDataFailed = await updateId(purchase_order.id_accurate, purchase_order.id_frappe);
+      let updateData = Object(updateDataFailed)
+      if (updateData.status != 'success') {
+        result.sync_failed.push(purchase_order)
+        continue;
+      }
+      
+      await deleteFailedFrappe(purchase_order.id)
+      result.sync_success.push(purchase_order)
+    }
+    return {
+      status: "success",
+      data: result
+    }
+  } catch (error) {
+    return {
+      status: "error",
+      data:error
+    }
+  }
+  
+}
+
+export async function syncFailedAccurate(): Promise<Object> {
+  return {}
 }
