@@ -53,10 +53,10 @@ export async function syncAccurateSupplier(): Promise<Object> {
         data.sync_accurate_success.push(supplier);
       }
       
-      const updateSupplier = await updateIdSupplier(resultSuppliers.data.r.id, supplier.id) 
+      const updateSupplier = await updateIdSupplier(resultSuppliers.data.r.vendorNo, supplier.id) 
       const resultUpdateSupplier = Object(updateSupplier)
       if (resultUpdateSupplier.status != 'success') {
-        supplier.id_accurate = resultSuppliers.data.r.id;
+        supplier.id_accurate = resultSuppliers.data.r.vendorNo;
         data.sync_frappe_error.push(supplier);
       } else {
         data.sync_frappe_success.push(supplier);
@@ -164,10 +164,10 @@ export async function syncFailedAccurate(): Promise<Object> {
       } else {
         data.sync_accurate_success.push(supplier);
       }
-      const updateProduct = await updateIdSupplier(resultSuppSyncSupplier.data.r.id, supplier.id_frappe || '') 
+      const updateProduct = await updateIdSupplier(resultSuppSyncSupplier.data.r.vendorNo, supplier.id_frappe || '') 
       const resultUpdateProduct = Object(updateProduct)
       if (resultUpdateProduct.status != 'success') {
-        supplier.id_accurate = resultSuppSyncSupplier.data.r.id;
+        supplier.id_accurate = resultSuppSyncSupplier.data.r.vendorNo;
         data.sync_frappe_error.push(supplier);
         continue;
       } else {
