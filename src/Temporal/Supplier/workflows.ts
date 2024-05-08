@@ -176,7 +176,7 @@ export async function syncFailedAccurate(): Promise<Object> {
     }
 
     return {
-      status: 'error',
+      status: 'success',
       data:data
     }
   } catch (error) {

@@ -2,6 +2,8 @@ import axios from "axios"
 import { PurchaseOrder } from "./workflowInterface"
 import { generateHeader } from "../../Utils/HeaderAccurateUtil"
 import FrappeService from "../../Services/FrappeService"
+import AccurateService from "../../Services/AccurateService"
+import Stringutil from "../../Utils/StringUtil"
 
 export async function callPurchaseOrder(): Promise<Object> {
     try {
@@ -90,6 +92,7 @@ export async function callFailedFrappe(): Promise<Object> {
     }
   }
 }
+
 export async function deleteFailedFrappe(id:number): Promise<Object> {
   try {
     const service: FrappeService = new FrappeService
@@ -99,6 +102,44 @@ export async function deleteFailedFrappe(id:number): Promise<Object> {
       data: result
     }
     return {}
+  } catch (error) {
+    return {
+      status: 'error',
+      data: error
+    }
+  }
+}
+
+export async function callFailedAccurate(): Promise<Object> {
+  try {
+    const service: AccurateService = new AccurateService
+    const result = await service.getDataFailedPurchaseOrder()    
+    return {
+      status: "success",
+      data: result.map(item => {
+        const request = Stringutil.jsonDecode(item.request||'')
+        return {
+          id: item.id,
+          ...request
+        }
+      })
+    }
+  } catch (error) {
+    return {
+      status: 'error',
+      data: error
+    }
+  }  
+}
+
+export async function deleteFailedAccurate(id:number) {
+  try {
+    const service: AccurateService = new AccurateService
+    const result = await service.deleteDataFailed(id)    
+    return {
+      status: "success",
+      data: result
+    }
   } catch (error) {
     return {
       status: 'error',

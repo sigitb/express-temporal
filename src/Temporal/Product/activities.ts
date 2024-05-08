@@ -31,6 +31,7 @@ export async function syncProducts(name: String): Promise<Object> {
     const response = await axios.post(process.env.ACCURATE_HOST + '/accurate/api/item/save.do', {
         'itemType': 'INVENTORY',
         'name': name,
+        'unitName1':'PCS'
      }, {headers})
     return {
       status: 'success',

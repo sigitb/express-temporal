@@ -6,6 +6,7 @@ export interface Response {
 }
   
 export interface PurchaseOrder {
+    id?: number | 0;
     id_purchase_order: String;
     id_supplier: String;
     id_supplier_accurate?: String | "";

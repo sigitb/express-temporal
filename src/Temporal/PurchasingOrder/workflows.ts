@@ -9,7 +9,9 @@ const {
   updateId,
   sync,
   callFailedFrappe,
-  deleteFailedFrappe
+  deleteFailedFrappe,
+  callFailedAccurate,
+  deleteFailedAccurate
 } = proxyActivities<typeof activities>({
   startToCloseTimeout: '30s',
   scheduleToCloseTimeout: '30s',
@@ -54,11 +56,11 @@ export async function syncAccuratePurchaseOrder(): Promise<Object> {
         response.sync_accurate_error.push(row);
         continue;
       } else {
-        row.id_accurate = resultSyncPurchaseOrder.data.r.vendorNo;
+        row.id_accurate = resultSyncPurchaseOrder.data.r.number;
         response.sync_accurate_success.push(row);
       }
 
-      const updateProduct = await updateId(String(row.id_purchase_order), resultSyncPurchaseOrder.data.r.vendorNo) 
+      const updateProduct = await updateId(String(row.id_purchase_order), resultSyncPurchaseOrder.data.r.number || 0) 
       const resultUpdateProduct = Object(updateProduct)
       if (resultUpdateProduct.status != 'success') {
         response.sync_frappe_error.push(row);
@@ -127,5 +129,72 @@ export async function syncFailedFrappe(): Promise<Object> {
 }
 
 export async function syncFailedAccurate(): Promise<Object> {
-  return {}
+  try {
+    const callFailedData = await callFailedAccurate()
+    let resultFailedData = Object(callFailedData)
+    if (resultFailedData.status != 'success') {
+      return {
+        'status': 'error',
+        'data': resultFailedData.data
+      }
+    }
+
+    let response: Response = {
+      sync_accurate_error: [],
+      sync_accurate_success: [],
+      sync_frappe_error: [],
+      sync_frappe_success: [],
+    };
+
+    for (let index = 0; index < resultFailedData.data.length; index++) {
+      const products: Item[] = resultFailedData.data[index].items
+
+      const row: PurchaseOrder = {
+        id: resultFailedData.data[index].id,
+        id_purchase_order: resultFailedData.data[index].id_purchase_order,
+        id_supplier: resultFailedData.data[index].id_supplier,
+        id_supplier_accurate: resultFailedData.data[index].id_supplier_accurate,
+        address: resultFailedData.data[index].address,
+        grand_total: resultFailedData.data[index].grand_total,
+        transaction_date: format(new Date(resultFailedData.data[index].transaction_date), 'dd/MM/yyyy'),
+        items: products
+      }
+
+      const deleteData = await deleteFailedAccurate(row.id || 0)
+      const resultDelete = Object(deleteData)
+      if (resultDelete.status != 'success') {
+        continue;
+      }
+
+      const syncPurchaseOrder = await sync(row)
+      const resultSyncPurchaseOrder = Object(syncPurchaseOrder)
+      if (resultSyncPurchaseOrder.status != 'success') {
+        response.sync_accurate_error.push(row);
+        continue;
+      } else {
+        row.id_accurate = resultSyncPurchaseOrder.data.r.number;
+        response.sync_accurate_success.push(row);
+      }
+
+      const updateProduct = await updateId(String(row.id_purchase_order), resultSyncPurchaseOrder.data.r.number || 0)
+      const resultUpdateProduct = Object(updateProduct)
+      if (resultUpdateProduct.status != 'success') {
+        response.sync_frappe_error.push(row);
+        continue;
+      } else {
+        response.sync_frappe_success.push(row);
+      }
+    }
+
+    return {
+      status: 'success',
+      data: response
+    }
+
+  } catch (error) {
+    return {
+      status: "error",
+      data: error
+    }
+  }
 }

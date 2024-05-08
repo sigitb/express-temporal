@@ -180,7 +180,7 @@ class AccurateController {
     getDatabaseAccurate = async (req: Request, res: Response): Promise<Response> => {
         const headers: { [key: string]: string } = generateHeader();
         // const response = await axios.post('https://account.accurate.id/api/api-token.do', {}, { headers })
-        const response = await axios.get(process.env.ACCURATE_HOST + '/accurate/api/vendor/detail.do', {
+        const response = await axios.get(process.env.ACCURATE_HOST + '/accurate/api/item/detail.do', {
             headers,
             params: {
                 id:"100"
