@@ -11,7 +11,8 @@ class AccurateRoute extends BaseRoutes{
     public routes(): void {
         this.router.get("/sync-product", auth, AccurateController.product);
         this.router.get("/sync-supplier", auth, AccurateController.supplier);
-        this.router.get("/purchasing-order", auth, AccurateController.purchasingOrder);
+        this.router.get("/purchase-order", auth, AccurateController.purchasingOrder);
+        this.router.get("/purchase-invoice", auth, AccurateController.purchaseInvoce);
         this.router.get("/database-accurate",  AccurateController.getDatabaseAccurate);
     }
 }

@@ -55,7 +55,7 @@ export async function sync(data: PurchaseOrder) : Promise<Object> {
       }
 }
 
-export async function updateId(id: string, id_accurate: string | ""): Promise<Object> {
+export async function updateId(id: string, id_accurate: string | "0"): Promise<Object> {
     try {
       const response = await axios.put(process.env.FRAPPE_HOST + '/api/method/erpnext.api_v1.accurate.api.UpdatePurchaseOrder', {
         'accurate': id_accurate,
@@ -65,6 +65,14 @@ export async function updateId(id: string, id_accurate: string | ""): Promise<Ob
           'Authorization': 'token 736960728528a1c:4d043b927a0449d'
         }
       })
+
+      if (response.data.message.status == 'error') {
+        return {
+          status: 'error',
+          data: response.data.message
+        }
+      }
+
       return {
         status: 'success',
         data:response.data
