@@ -11,14 +11,14 @@ class ResponseUtil {
         return res
     }
 
-    public static response = (status: number, code:number, message:string, data: any): object => {
+    public static response = (status: string, code:number, message:string, data?: any | []): object => {
         const res = {
             meta: {
                 status: status,
                 code: code,
                 message: message
             },
-            data:data
+            data:data || []
         };
         return res
     }
