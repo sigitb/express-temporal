@@ -1,8 +1,8 @@
 export interface Response {
-    sync_accurate_error: any[];
-    sync_accurate_success: any[];
-    sync_frappe_error: any[];
-    sync_frappe_success: any[];
+    sync_accurate_error: PurchaseOrder[];
+    sync_accurate_success: PurchaseOrder[];
+    sync_frappe_error: PurchaseOrder[];
+    sync_frappe_success: PurchaseOrder[];
 }
   
 export interface PurchaseOrder {
@@ -24,8 +24,8 @@ export interface Item{
     item_name: string
 }
 export interface DataCron{
-    sync_success: any[];
-    sync_failed: any[];
+    sync_success: FailedData[];
+    sync_failed: FailedData[];
 }
 
 export interface FailedData{
