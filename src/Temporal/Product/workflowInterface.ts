@@ -1,8 +1,8 @@
 export interface Data {
-    sync_accurate_error?: Product[];
-    sync_accurate_success?: Product[];
-    sync_frappe_error?: Product[];
-    sync_frappe_success?: Product[];
+    sync_accurate_error: Product[];
+    sync_accurate_success: Product[];
+    sync_frappe_error: Product[];
+    sync_frappe_success: Product[];
 }
   
 export interface Product {
@@ -19,6 +19,6 @@ export interface FailedData{
 }
 
 export interface DataCron{
-    sync_success?: FailedData[];
-    sync_failed?: FailedData[];
+    sync_success: FailedData[];
+    sync_failed: FailedData[];
 }

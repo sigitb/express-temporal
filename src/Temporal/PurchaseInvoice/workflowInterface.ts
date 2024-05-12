@@ -1,8 +1,8 @@
 export interface ResponseWorkflow {
-    sync_accurate_error: any[];
-    sync_accurate_success: any[];
-    sync_frappe_error: any[];
-    sync_frappe_success: any[];
+    sync_accurate_error: PurchaseInvoice[];
+    sync_accurate_success: PurchaseInvoice[];
+    sync_frappe_error: PurchaseInvoice[];
+    sync_frappe_success: PurchaseInvoice[];
 }
 
 export interface PurchaseInvoice {
