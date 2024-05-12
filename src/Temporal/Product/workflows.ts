@@ -44,21 +44,21 @@ export async function syncAccurate(): Promise<Object> {
         name: products.data[index].item_name,
       }
       if (resultProduct.status != 'success') {
-        data.sync_accurate_error.push(product);
+        data.sync_accurate_error!.push(product);
         await updateIdAccurate(product.id, 0) 
         continue;
       } else {
-        data.sync_accurate_success.push(product);
+        data.sync_accurate_success!.push(product);
       }
       
       const updateProduct = await updateIdAccurate(product.id, resultProduct.data.r.id) 
       const resultUpdateProduct = Object(updateProduct)
       if (resultUpdateProduct.status != 'success') {
         product.id_accurate = resultProduct.data.r.id;
-        data.sync_frappe_error.push(product);
+        data.sync_frappe_error!.push(product);
         continue;
       } else {
-        data.sync_frappe_success.push(product);
+        data.sync_frappe_success!.push(product);
       }
 
     }
@@ -88,7 +88,7 @@ export async function syncFailedFrappe(): Promise<Object> {
 
     const result: DataCron = {
       sync_failed: [],
-      sync_success:[]
+      sync_success:[],
     }
 
     for (let index = 0; index < failedData.data.length; index++) {
@@ -100,12 +100,12 @@ export async function syncFailedFrappe(): Promise<Object> {
       const updateDataFailed = await updateIdAccurate(product.id_frappe, product.id_accurate);
       let updateData = Object(updateDataFailed)
       if (updateData.status != 'success') {
-        result.sync_failed.push(product)
+        result.sync_failed!.push(product)
         continue;
       }
       
       await deleteDataFailedFrappe(product.id)
-      result.sync_success.push(product)
+      result.sync_success!.push(product)
     }
 
     return {
@@ -155,19 +155,19 @@ export async function syncFailedAccurate(): Promise<Object> {
       const syncProduct = await syncProducts(product.name);
       const resultProduct = Object(syncProduct)
       if (resultProduct.status != 'success') {
-        data.sync_accurate_error.push(product);
+        data.sync_accurate_error!.push(product);
         continue;
       } else {
-        data.sync_accurate_success.push(product);
+        data.sync_accurate_success!.push(product);
       }
       const updateProduct = await updateIdAccurate(product.id_frappe || '', resultProduct.data.r.id) 
       const resultUpdateProduct = Object(updateProduct)
       if (resultUpdateProduct.status != 'success') {
         product.id_accurate = resultProduct.data.r.id;
-        data.sync_frappe_error.push(product);
+        data.sync_frappe_error!.push(product);
         continue;
       } else {
-        data.sync_frappe_success.push(product);
+        data.sync_frappe_success!.push(product);
       }
     }
 
