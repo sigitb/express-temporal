@@ -10,6 +10,7 @@ import { syncAccuratePurchaseOrder  } from "../../Temporal/PurchasingOrder/workf
 import { syncPurhcaseInvoice } from "../../Temporal/PurchaseInvoice/workflows";
 import axios from "axios";
 import { generateHeader } from "../../Utils/HeaderAccurateUtil";
+import ResponseUtil from "../../Utils/ResponseUtil";
 
 
 
@@ -34,11 +35,8 @@ class AccurateController {
         service.log('result-workflow', req.body.toString(), Stringutil.jsonEncode(result));
         if (result.status != 'success') {
             service.log('error-workflow', req.body.toString(), Stringutil.jsonEncode(result));
-            return res.send({
-                message: "Sync-failed",
-                status: 200,
-                data: {}
-            });
+            const formatter = ResponseUtil.response('failed', 400, 'Synchronization Purchase Order Failed')
+            return res.send(formatter)
         }
 
         for (let index = 0; index < result.data.sync_accurate_error.length; index++) {
@@ -61,11 +59,8 @@ class AccurateController {
         };
         
         
-        return res.send({
-            message: "Sync",
-            status: 200,
-            data: responseData
-        });
+        const formatter = ResponseUtil.response('success', 200, 'Synchronization Purchase Order Successfuly', responseData)
+        return res.send(formatter)
     }
 
     product = async (req:Request, res: Response): Promise<Response> => {
@@ -88,11 +83,8 @@ class AccurateController {
         service.log('result-workflow', req.body.toString(), Stringutil.jsonEncode(result));
         if (result.status != 'success') {
             service.log('error-workflow', req.body.toString(), Stringutil.jsonEncode(result));
-            return res.send({
-                message: "Sync-failed",
-                status: 200,
-                data: {}
-            });
+            const formatter = ResponseUtil.response('failed', 400, 'Synchronization Product Failed')
+            return res.send(formatter)
         }
 
         for (let index = 0; index < result.data.sync_accurate_error.length; index++) {
@@ -115,11 +107,8 @@ class AccurateController {
         };
         
         
-        return res.send({
-            message: "Sync",
-            status: 200,
-            data: responseData
-        });
+        const formatter = ResponseUtil.response('success', 200, 'Synchronization Product Successfuly', responseData)
+        return res.send(formatter)
     }
 
     supplier = async (req: Request, res: Response): Promise<Response> => {
@@ -142,11 +131,8 @@ class AccurateController {
         service.log('result-workflow', req.body.toString(), Stringutil.jsonEncode(result));
         if (result.status != 'success') {
             service.log('error-workflow', req.body.toString(), Stringutil.jsonEncode(result));
-            return res.send({
-                message: "Sync-failed",
-                status: 200,
-                data: {}
-            });
+            const formatter = ResponseUtil.response('failed', 400, 'Synchronization Supplier Failed')
+            return res.send(formatter)
         }
 
         for (let index = 0; index < result.data.sync_accurate_error.length; index++) {
@@ -170,12 +156,8 @@ class AccurateController {
             data_frappe_success:result.data.sync_frappe_success
         };
         
-        
-        return res.send({
-            message: "Sync",
-            status: 200,
-            data: responseData
-        });
+        const formatter = ResponseUtil.response('success', 200, 'Synchronization Supplier Successfuly', responseData)
+        return res.send(formatter)
     }
 
     purchaseInvoce = async (req: Request, res: Response): Promise<Response> => {
@@ -198,11 +180,8 @@ class AccurateController {
         service.log('result-workflow', req.body.toString(), Stringutil.jsonEncode(result));
         if (result.status != 'success') {
             service.log('error-workflow', req.body.toString(), Stringutil.jsonEncode(result));
-            return res.send({
-                message: "Sync-failed",
-                status: 200,
-                data: {}
-            });
+            const formatter = ResponseUtil.response('failed', 400, 'Synchronization Purchase Invoice Failed')
+            return res.send(formatter)
         }
         for (let index = 0; index < result.data.sync_accurate_error.length; index++) {
             let dataAccurateFailed = result.data.sync_accurate_error[index] 
@@ -224,32 +203,26 @@ class AccurateController {
         };
         
         
-        return res.send({
-            message: "Sync",
-            status: 200,
-            data: responseData
-        });
+        const formatter = ResponseUtil.response('success', 200, 'Synchronization Purchase Invoice Successfuly', responseData)
+        return res.send(formatter)
     }
 
     getDatabaseAccurate = async (req: Request, res: Response): Promise<Response> => {
         const headers: { [key: string]: string } = generateHeader();
-        // const response = await axios.post('https://account.accurate.id/api/api-token.do', {}, { headers })
-        const response = await axios.post(process.env.ACCURATE_HOST + '/accurate/api/purchase-invoice/save.do', {
-            'transDate': '08/05/2024',
-            'vendorNo': 'V.00002',
-            'billNumber': 'PO.2024.05.00009',
-            'detailItem': [{
-                'itemId': '100',
-                'unitPrice': 20000,
-                'itemUnitName': "PCS",
-                'quantity': 200
-            }]
-        } ,{headers})
-        return res.send({
-            message: "database",
-            status: 200,
-            data: response.data
-        })
+        const response = await axios.post('https://account.accurate.id/api/api-token.do', {}, { headers })
+        // const response = await axios.post(process.env.ACCURATE_HOST + '/accurate/api/purchase-invoice/save.do', {
+        //     'transDate': '08/05/2024',
+        //     'vendorNo': 'V.00002',
+        //     'billNumber': 'PO.2024.05.00009',
+        //     'detailItem': [{
+        //         'itemId': '100',
+        //         'unitPrice': 20000,
+        //         'itemUnitName': "PCS",
+        //         'quantity': 200
+        //     }]
+        // } ,{headers})
+        const formatter = ResponseUtil.response('success', 200, 'berhasil')
+        return res.send(formatter)
     }
 }
 

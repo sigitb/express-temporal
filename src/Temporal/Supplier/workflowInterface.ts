@@ -1,8 +1,8 @@
 export interface Data {
-    sync_accurate_error: any[];
-    sync_accurate_success: any[];
-    sync_frappe_error: any[];
-    sync_frappe_success: any[];
+    sync_accurate_error: Supplier[];
+    sync_accurate_success: Supplier[];
+    sync_frappe_error: Supplier[];
+    sync_frappe_success: Supplier[];
 }
 
 export interface Supplier {
@@ -20,6 +20,6 @@ export interface FailedData{
 }
 
 export interface DataCron{
-    sync_success: any[];
-    sync_failed: any[];
+    sync_success: FailedData[];
+    sync_failed: FailedData[];
 }

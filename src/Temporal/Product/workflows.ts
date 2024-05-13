@@ -88,7 +88,7 @@ export async function syncFailedFrappe(): Promise<Object> {
 
     const result: DataCron = {
       sync_failed: [],
-      sync_success:[]
+      sync_success:[],
     }
 
     for (let index = 0; index < failedData.data.length; index++) {
