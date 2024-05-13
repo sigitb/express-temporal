@@ -6,6 +6,7 @@ export interface ResponseWorkflow {
 }
 
 export interface PurchaseInvoice {
+    id?: number;
     transaction_date: string;
     supplier: string;
     purchase_order: string;

@@ -3,6 +3,7 @@ import { generateHeader } from '../../Utils/HeaderAccurateUtil'
 import Stringutil from '../../Utils/StringUtil';
 import { PurchaseInvoice } from './workflowInterface';
 import FrappeService from '../../Services/FrappeService';
+import AccurateService from '../../Services/AccurateService';
 require("dotenv").config();
 
 export async function callInvoice(): Promise<Object> {
@@ -108,6 +109,38 @@ export async function deleteFailedFrappe(id:number): Promise<Object> {
       data: result
     }
     return {}
+  } catch (error) {
+    return {
+      status: 'error',
+      data: error
+    }
+  }
+}
+
+export async function callFailedAccurate(): Promise<Object> {
+  try {
+    const service: AccurateService = new AccurateService
+    const result = await service.getDataFailedPurchaseInvoice()    
+    return {
+      status: "success",
+      data: result
+    }
+  } catch (error) {
+    return {
+      status: 'error',
+      data: error
+    }
+  }
+}
+
+export async function deleteFailedAccurate(id: number): Promise<Object> {
+  try {
+    const service: AccurateService = new AccurateService
+    const result = await service.deleteDataFailed(id)    
+    return {
+      status: "success",
+      data: result
+    }
   } catch (error) {
     return {
       status: 'error',

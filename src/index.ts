@@ -12,6 +12,7 @@ import AccurateRoutes from "./Routers/AccurateRoute";
 import { FailedAccurateJobProduct, FailedFrappeJobProduct } from "./Jobs/FailedSyncProductJob";
 import { FailedAccurateJobSupplier, FailedFrappeJobSupplier } from "./Jobs/FailedSyncSupplierJob";
 import { FailedAccurateJobPurchaseOrder, FailedFrappeJobPurchaseOrder } from "./Jobs/FailedSyncPurchaseOrderJob";
+import { FailedAccurateJobPurchaseInvoice, FailedFrappeJobPurchaseInvoice } from "./Jobs/FailedSyncPurchaseInvoice";
 
 class App {
     public app: Application;
@@ -46,6 +47,8 @@ class App {
         cron.schedule('* * * * *', FailedFrappeJobSupplier);
         cron.schedule('* * * * *', FailedFrappeJobPurchaseOrder);
         cron.schedule('* * * * *', FailedAccurateJobPurchaseOrder);
+        cron.schedule('* * * * *', FailedAccurateJobPurchaseInvoice);
+        cron.schedule('* * * * *', FailedFrappeJobPurchaseInvoice);
     }
 }
 
