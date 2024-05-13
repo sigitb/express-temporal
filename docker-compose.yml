@@ -2,30 +2,35 @@ version: '3'
 
 services: 
   express:
+    env_file:
+      - ./environment/.env
+      - ./environment/postgres.env
     build:
       context: .
       dockerfile: dockerfile/DockerFile.express
+    image: express-prisma-express:latest
     ports:
       - 7000:8080
     depends_on:
       - db
   express-worker:
+    env_file:
+      - ./environment/.env
+      - ./environment/postgres.env
     image: express-prisma-express:latest
     command: bash -c "npx prisma migrate dev --name init && npm run worker"
     depends_on:
       - db
   db:
     container_name: postgresql
-    image: postgres
+    image: postgres:latest
     volumes:
-      - db:/var/lib/mysql
+      - db:/var/lib/
     restart: on-failure
+    env_file:
+      - ./environment/postgres.env
     ports:
       - 5432:5432
-    environment:
-      - POSTGRES_USER=root
-      - POSTGRES_PASSWORD=123
-      - POSTGRES_DB=accurate_temporal
   # mysql:
   #   image: mysql
   #   volumes:
