@@ -42,6 +42,19 @@ class AccurateService {
         })
         return data
     }
+    getDataFailedPurchaseInvoice = async () => {
+        const data = await prisma.syncAccurateFailed.findMany({
+            where: {
+                type:'PURCHASE_INVOICE'
+            },
+            select: {
+                id: true,
+                name: true,
+                request:true
+            }
+        })
+        return data
+    }
 
     deleteDataFailed = async (id: number) => {
         const deleteData = await prisma.syncAccurateFailed.delete({
