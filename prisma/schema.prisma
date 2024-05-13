@@ -9,15 +9,15 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "postgres"
   url      = env("DATABASE_URL")
 }
 
 model LogSync {
   id Int @id @default(autoincrement())
   name String 
-  request String? @db.LongText
-  response String? @db.LongText
+  request String? @db.Text
+  response String? @db.Text
   createdAt  DateTime   @default(now())
 }
 
@@ -25,7 +25,7 @@ model SyncAccurateFailed {
   id Int @id @default(autoincrement())
   type TypeSync @default(PRODUCT)
   name String 
-  request String? @db.LongText
+  request String? @db.Text
   createdAt  DateTime   @default(now())
   @@map("sync_accurate_failed")
 }
@@ -35,7 +35,7 @@ model SyncFrappeFailed {
   type TypeSync @default(PRODUCT)
   id_accurate String 
   id_frappe String 
-  request String? @db.LongText
+  request String? @db.Text
   createdAt  DateTime   @default(now())
   @@map("sync_frappe_failed")
 }
