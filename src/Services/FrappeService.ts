@@ -42,6 +42,19 @@ class FrappeService {
         })
         return data
     }
+    getDataFailedPruchaseInvoice = async () => {
+        const data = await prisma.syncFrappeFailed.findMany({
+            where: {
+                type:'PURCHASE_INVOICE'
+            },
+            select: {
+                id: true,
+                id_accurate: true,
+                id_frappe: true
+            }
+        })
+        return data
+    }
 
     deleteDataFailed = async (id: number) => {
         const deleteData = await prisma.syncFrappeFailed.delete({

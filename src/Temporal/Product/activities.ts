@@ -5,7 +5,7 @@ import AccurateService from '../../Services/AccurateService';
 import Stringutil from '../../Utils/StringUtil';
 require("dotenv").config();
 
-export async function callProducts(): Promise<{ status?: string, data?: any[], message?: any }> {
+export async function callProducts(): Promise<Object> {
   try {
     const response = await axios.get(process.env.FRAPPE_HOST + '/api/method/erpnext.api_v1.accurate.api.ProductAll', {
       headers: {

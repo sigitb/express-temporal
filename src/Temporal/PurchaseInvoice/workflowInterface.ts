@@ -19,3 +19,14 @@ export interface Item {
     price: number,
     quantity: number
 }
+
+export interface DataCron{
+    sync_success: FailedData[];
+    sync_failed: FailedData[];
+}
+
+export interface FailedData{
+    id: number;
+    id_frappe: string;
+    id_accurate: string;
+}

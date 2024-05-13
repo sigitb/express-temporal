@@ -2,6 +2,7 @@ import axios from 'axios';
 import { generateHeader } from '../../Utils/HeaderAccurateUtil'
 import Stringutil from '../../Utils/StringUtil';
 import { PurchaseInvoice } from './workflowInterface';
+import FrappeService from '../../Services/FrappeService';
 require("dotenv").config();
 
 export async function callInvoice(): Promise<Object> {
@@ -80,4 +81,37 @@ export async function updateId(id: string, id_accurate: string | "0"): Promise<O
         data: error
       }
     }
+}
+
+export async function callFailedFrappe(): Promise<Object> {
+  try {
+    const service: FrappeService = new FrappeService
+    const result = await service.getDataFailedPruchaseInvoice()    
+    return {
+      status: "success",
+      data: result
+    }
+  } catch (error) {
+    return {
+      status: 'error',
+      data: error
+    }
+  }
+}
+
+export async function deleteFailedFrappe(id:number): Promise<Object> {
+  try {
+    const service: FrappeService = new FrappeService
+    const result = await service.deleteDataFailed(id)    
+    return {
+      status: "success",
+      data: result
+    }
+    return {}
+  } catch (error) {
+    return {
+      status: 'error',
+      data: error
+    }
+  }
 }

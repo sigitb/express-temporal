@@ -1,8 +1,8 @@
 export interface ResponseProductSupllier {
-    data_accurate_error: any[];
-    data_accurate_success: any[];
-    data_frappe_success: any[];
-    data_frappe_error: any[];
+    data_accurate_error: [];
+    data_accurate_success: [];
+    data_frappe_success: [];
+    data_frappe_error: [];
 }
 
 export interface ResponseWorkflow {
