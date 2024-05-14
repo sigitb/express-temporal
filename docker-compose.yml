@@ -1,6 +1,21 @@
 version: '3.9'
 
 services: 
+  db:
+    container_name: postgresql
+    image: postgres:latest
+    volumes:
+      - db:/var/lib/
+    restart: on-failure
+    env_file:
+      - ./environment/postgres.env
+    ports:
+      - 5432:5432
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready", "-d", "$POSTGRES_DB", "-U", "$POSTGRES_USER"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
   express:
     env_file:
       - ./environment/.env
@@ -12,25 +27,17 @@ services:
     ports:
       - 9090:9090
     depends_on:
-      - db
+      db:
+        condition: service_healthy
   express-worker:
     env_file:
       - ./environment/.env
       - ./environment/postgres.env
     image: express-prisma-express:latest
-    command: bash -c "npx prisma migrate dev --name init && npm run worker"
+    command: bash -c "npx prisma migrate dev --name init; npm run worker"
     depends_on:
-      - db
-  db:
-    container_name: postgresql
-    image: postgres:latest
-    volumes:
-      - db:/var/lib/
-    restart: on-failure
-    env_file:
-      - ./environment/postgres.env
-    ports:
-      - 5432:5432
+      db:
+        condition: service_healthy
 
 volumes:
   db:
